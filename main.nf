@@ -39,7 +39,7 @@ process 2_preprocessing {
         file readspath from readspath_ch
 
     output:
-        file "/data/human/spleen/nxf_spleen/spleen/outs/filtered_feature_bc_matrix" into cellranger_ch
+        file "/spleen/outs/filtered_feature_bc_matrix" into cellranger_ch
 
     script:
 
@@ -58,11 +58,12 @@ process 2_preprocessing {
 // Process 3 Post-processing of count table with Seurat
 
 process 3_postprocessing {
+    publishDir = "results/"
 input:
         file matrix from cellranger_ch
 
     output:
-        file "/data/human/spleen/nxf_spleen/spleen/UMAP.png" into cellranger_ch
+        file "/spleen/spleen_UMAP.png" into results
 
     script:
 
