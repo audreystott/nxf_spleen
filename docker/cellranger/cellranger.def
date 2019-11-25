@@ -1,0 +1,55 @@
+BootStrap: scratch
+From: ubuntu:18.04
+
+%post
+    apt-get update \
+    && apt-get -y install software-properties-common \
+    && apt-get update \
+    && add-apt-repository ppa:longsleep/golang-backports \
+    && apt-get update \
+    && apt-get -y install \
+    golang-1.11-go
+
+%post
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] \
+    && \. \"$NVM_DIR/bash_completion" \
+    && nvm install node \
+    && nvm install --lts \
+    && nvm install 8.11.4 \
+    && nvm use 8.11.4 \
+    && nvm alias default 8.11.4
+
+%post  
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    && export PATH="$HOME/.cargo/bin:$PATH"
+
+%post
+    apt-get update \
+    && apt-get -y install \
+    clang-6.0 \
+    python-minimal #installs python 2.7 on ubuntu 18.04 \
+    && apt-get -y install git \
+    && git clone https://github.com/10XGenomics/cellranger.git \
+    && cd cellranger \
+    && make \
+    && mkdir apps
+    && export PATH=/apps/cellranger-3.1.0:$PATH
+
+%
+    BCL_ZIP_VERSION="2-20-0"
+    BCL_RPM_VERSION="2.20.0.422"
+
+%post  
+    curl https://support.illumina.com/softwaredownload.html?assetId=e8ed3335-5201-48ff-a2bc-db4bfb792c85&assetDetails=bcl2fastq2-v2-20-0-linux-x86-64.zip \
+    && apt-get update \
+    && apt-get install -y alien \
+    && alien bcl2fastq2*.rpm \
+    && dpkg -i bcl2fastq2*.deb \
+    && rm bcl2fastq2*.deb bcl2fastq2*.rpm
+
+%labels
+    Author Pawsey Supercomputing Centre
+    Version v0.0.1
