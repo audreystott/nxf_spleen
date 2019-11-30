@@ -1,11 +1,9 @@
 FROM continuumio/miniconda:4.7.12 AS first-build
 MAINTAINER Audrey Stott "audrey.stott@pawsey.org.au"
-RUN apt-get -y install ttf-dejavu
 COPY conda.yml .
-RUN \
-   conda env update -n root -f conda.yml \
-   && conda clean -a
-RUN apt-get update && apt-get install -y procps
+RUN conda env update -n root -f conda.yml \
+    && conda clean -a
+RUN chmod a+w opt/conda/lib/R/library
 
 FROM ubuntu:bionic AS second-build
 MAINTAINER Audrey Stott "audrey.stott@pawsey.org.au"

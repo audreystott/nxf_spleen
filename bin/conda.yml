@@ -1,0 +1,15 @@
+name: scrnaseq
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+dependencies:
+  # Default bismark
+  - fastqc=0.11.8
+  - r-seurat=3.0.2
+  - libopenblas=0.3.6
+  - umap-learn=0.3.10
+  - xorg-libxrender=0.9.10
+  - xorg-libx11=1.6.9
+  - xorg-libxext=1.3.4
+  - xorg-libxau=1.0.9

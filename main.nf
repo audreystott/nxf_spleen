@@ -55,7 +55,7 @@ process count {
         path genomepath from mkref_ch
 
     output:
-        file "filtered_feature_bc_matrix" into count_ch
+        file "HCAT/outs/filtered_feature_bc_matrix" into count_ch
 
     script:
 
@@ -67,7 +67,7 @@ process count {
 
 // Process 3 Post-processing of count table with Seurat
 
-process postprocessing {
+process seurat {
     publishDir params.results
     
     input:

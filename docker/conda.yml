@@ -1,11 +1,1 @@
-name: nxf-spleen
-channels:
-  - defaults
-  - bioconda
-  - conda-forge
-dependencies:
-  # Default bismark
-  - fastqc=0.11.8
-  - multiqc=1.5
-  - r=3.6.0
-  - r-seurat=3.0.2
+/data/human/spleen/nxf_spleen/bin/conda.yml

@@ -1,14 +1,12 @@
 #!/usr/bin/env Rscript
 
 # Install and load Seurat development mode and dependencies
-pip install umap-learn
-devtools::install_github(repo = 'satijalab/seurat', ref = 'develop')
 library(Seurat)
 library(ggplot2)
 library(sctransform)
 
 # Define Seurat object
-spleen_data <- Read10X(data.dir = /data/human/spleen/nxf_spleen/HCAT/outs/filtered_feature_bc_matrix)
+spleen_data <- Read10X(data.dir = "filtered_feature_bc_matrix")
 spleen <- CreateSeuratObject(counts = spleen_data)
 
 # Normalise data
