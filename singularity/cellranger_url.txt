@@ -1,0 +1,1 @@
+/data/human/spleen/nxf_spleen/bin/cellranger_url.txt

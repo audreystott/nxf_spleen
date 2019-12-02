@@ -1,0 +1,44 @@
+Bootstrap: docker
+From: continuumio/miniconda:4.7.12
+Stage: devel 
+
+%files
+    conda.yml
+
+%post
+    echo "source /opt/conda/etc/profile.d/conda.sh" >> $SINGULARITY_ENVIRONMENT
+    echo "source activate $(head -1 conda.yml | cut -d' ' -f2)" >> $SINGULARITY_ENVIRONMENT
+    /opt/conda/bin/conda env create -f conda.yml
+
+BootStrap: docker
+From: ubuntu:bionic
+Stage: final
+
+%files
+    cellranger_url.txt
+
+%post
+    export CELLRANGER_VERSION=3.1.0
+    export CELLRANGER_WEB_TOKEN=/cellranger_url.txt
+    mkdir -p /tmp/cellranger-build \
+    && cd /tmp/cellranger-build \
+    && apt-get update \
+    && apt-get install -y wget \
+    && wget -O cellranger-${CELLRANGER_VERSION}.tar.gz -i ${CELLRANGER_WEB_TOKEN} \
+    && mkdir /apps \
+    && mv cellranger-${CELLRANGER_VERSION}.tar.gz /apps/ \
+    && cd /apps \
+    && tar -xzvf cellranger-${CELLRANGER_VERSION}.tar.gz \
+    && rm -f cellranger-${CELLRANGER_VERSION}.tar.gz \
+    && rm -rf /tmp/cellranger-build
+
+%files from devel
+    /opt/conda
+
+%environment
+    export PATH=/apps/cellranger-3.1.0:$PATH
+    export PATH=/opt/conda/envs/$(head -1 conda.yml | cut -d' ' -f2)/bin:$PATH
+
+%labels
+    Author Pawsey Supercomputing Centre
+    Version v0.0.1
