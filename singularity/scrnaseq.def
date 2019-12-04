@@ -34,10 +34,11 @@ Stage: final
 
 %files from devel
     /opt/conda
+    conda.yml 
 
 %environment
     export PATH=/apps/cellranger-3.1.0:$PATH
-    export PATH=/opt/conda/envs/$(head -1 conda.yml | cut -d' ' -f2)/bin:$PATH
+    export PATH=/opt/conda/envs/$(head -1 /conda.yml | cut -d' ' -f2)/bin:$PATH
 
 %labels
     Author Pawsey Supercomputing Centre
