@@ -25,18 +25,18 @@ reads_dir_ch = Channel.fromPath(reads_dir)
 
 // Process 1 Quality check of reads with fastQC
 
-//process fastQC {
-//    input:
-//        tuple val(sampleId), path(reads) from reads_ch
+process fastQC {
+    input:
+        tuple val(sampleId), path(reads) from reads_ch
     
-//    output:
-//        file "*_fastqc.{zip,html}" into fastqc_ch
+    output:
+        file "*_fastqc.{zip,html}" into fastqc_ch
 
-//   script:
-//        """
-//        fastqc $reads -o .
-//        """
-//}
+   script:
+        """
+        fastqc $reads -o .
+        """
+}
 
 // Process 2 Pre-processing of reads with CellRanger
 
